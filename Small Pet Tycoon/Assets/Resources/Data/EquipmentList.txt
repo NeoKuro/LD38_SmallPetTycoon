@@ -1,0 +1,12 @@
+Basic Water Filter,1,100,25,Basic water filter used to keep fish healthy and happy,Fish,0.0,0.0,0.0,10.0
+Basic Air Pump,1,100,30,Basic air pump used to oxygenate a fish tank,Fish,0.0,0.0,10.0,0.0
+Basic Heat Lamp,2,150,50,A simple heat lamp used to keep reptiles warm,Reptiles,10.0,0.0,0.0,0.0
+Water Bottle,1,10,0,A water bottle used to spray habitats to keep them humid,Reptiles,0.0,2.5,0.0,0.0
+Water Filter XTreme,3,250,100,More efficient and larger version of the basic water filter,Fish,0.0,0.0,0.0,50.0
+Air Master,2,200,50,More efficient air pump which keeps your fish happier,Fish,0.0,0.0,30.0,0.0
+HeatWave Lamp,2,300,150,Heat lamp same size as the basic lamp but heats habitats up more and faster,Reptiles,50.0,0.0,0.0,0.0
+Humidifier,4,500,100,Humidifier which can be setup to automatically maintain humidity in large habitats,Reptiles,0.0,25.0,0.0,0.0
+Water Sterilizer,5,1000,350,Most efficient and largest water filter available. Cleans huge aquariums,Fish,0.0,0.0,25.0,150.0
+Air Master Supreme,4,500,300,Pumps lots of fresh oxygenated air into fish tanks,Fish,0.0,0.0,75.0,50.0
+Advanced Heat Lamp,3,300,150,More advanced heat lamp than the basic lamp provides some heat but at greater efficiency,Reptiles,75.0,15.0,0.0,0.0
+SaharaSun Lamp,3,500,300,More powerful version of the Heatwave lamp. Can greatly heat up small or large habitats,Reptiles,150.0,0.0,0.0,0.0

@@ -1,0 +1,10 @@
+Guppy,1,5,Fish,A tiny tropical fish that breeds like rabbits. Fairly easy to take care of. Likes warm clean water.
+Kissing Gourami,3,25,Fish,Kissing gourami are known for their kissing actions. Though actually this may be a form of aggression. Tropical fish that enjoy warm water.
+Clown Loach,2,10,Fish,A colourful tropical fish that is fairly easy to raise. Enjoys warm water and groups of other fish. Should not be kept with small fish (noms).
+Siamese Fighter,1,15,Fish,The males are colourful with flowing fins. Only one male per tank is advised otherwise they will fight.
+Pleco,4,75,Reptile,Can grow quite large but also help with keeping your tanks clean. Advised only 1 per tank except in very large aquariums.
+Gecko,1,50,Reptile,A small lizard that is easy to breed. Because of its size may fall prey to larger reptiles especially in small habitats.
+Royal Python,4,300,Reptile,A large snake capable of growing to 4ft in length. Feeds on small mammals such as rats, but may feed on other smaller reptiles too.
+Corn Snake,3,200,Reptile,A small popular snake that is easy to keep and breed. They a popular because of their calm temperament and ease of care. They feed on small mammals
+Bearded Dragon,2,100,Reptile,A mid-sized lizard that is fairly easy to keep and breed. Though adults are territorial around other males, jueveniles can be kept in groups. They feed on insects.
+Rankins Dragon,1,75,Reptile,A small lizard that is similar in behaviour to the bearded dragon. They are sociable reptiles and can be kept with mates or groups.

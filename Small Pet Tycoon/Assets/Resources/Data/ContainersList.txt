@@ -1,0 +1,11 @@
+Small Container,1,5
+Small Tub,2,50
+Small Tub (w/ Holes),2,75
+Small Tank,3,200
+Medium Tub,3,150
+Medium Tub (w/ Holes),3,200
+Medium Tank,4,500
+Large Tub,4,200
+Large Tub (w/ Holes),4,300
+Large Tank,5,1000
+Aquarium Tank,6,2500
