@@ -20,7 +20,7 @@ public class ItemHandler : MonoBehaviour
                 break;
             case DATA_TYPE.EQUIPMENT:
                 EquipmentListing eItem = (EquipmentListing)item;
-                itemData = new Equipment(index, item.name, DATA_TYPE.EQUIPMENT, eItem.type,
+                itemData = new Equipment(index, item.name, DATA_TYPE.EQUIPMENT, GetSubType(eItem.type),
                                                                                         System.Convert.ToInt32(eItem.size), eItem.powerCost,
                                                                                         eItem.heat, eItem.humidity, eItem.airPump, eItem.waterFilter);
                 GameManager.playerStorage.equipmentStorage.Add(index, (Equipment)itemData);
@@ -31,7 +31,7 @@ public class ItemHandler : MonoBehaviour
                 bool shiny = RandBool(1);   //0.1% chance
                 bool glow = RandBool(1);    //0.1% chance
                 bool sparkle = RandBool(1); //0.1% chance
-                itemData = new Critter(index, item.name, DATA_TYPE.CRITTER, cItem.type,
+                itemData = new Critter(index, item.name, DATA_TYPE.CRITTER, GetSubType(cItem.type),
                                                                                     System.Convert.ToInt32(cItem.size), randAge, shiny, sparkle, glow);
                 GameManager.playerStorage.critterStorage.Add(index, (Critter)itemData);
                 StartCoroutine(itemData.RunCoroutine());
@@ -48,5 +48,22 @@ public class ItemHandler : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private SUB_TYPE GetSubType(string s)
+    {
+        switch(s.ToLower())
+        {
+            case "fish":
+                return SUB_TYPE.FISH;
+            case "reptile":
+                return SUB_TYPE.REPTILE;
+            case "insect":
+                return SUB_TYPE.INSECT;
+            case "arachnid":
+                return SUB_TYPE.ARACHNID;
+        }
+
+        return SUB_TYPE.REPTILE;
     }
 }

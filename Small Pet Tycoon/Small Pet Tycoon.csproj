@@ -75,15 +75,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\ContainerListItem.cs" />
+    <Compile Include="Assets\Scripts\EquipmentListItem.cs" />
+    <Compile Include="Assets\Scripts\EquipmentSelector.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Items\ItemHandler.cs" />
     <Compile Include="Assets\Scripts\Items\ItemListController.cs" />
     <Compile Include="Assets\Scripts\Items\ItemListing.cs" />
     <Compile Include="Assets\Scripts\Items\Items.cs" />
+    <Compile Include="Assets\Scripts\PC\EquipedItem.cs" />
     <Compile Include="Assets\Scripts\PC\PCController.cs" />
     <Compile Include="Assets\Scripts\PC\PC_UIController.cs" />
     <Compile Include="Assets\Scripts\PC\ShoppingBrowser.cs" />
     <Compile Include="Assets\Scripts\PC\ShoppingItemBtn.cs" />
+    <Compile Include="Assets\Scripts\PC\SlotSetupController.cs" />
     <Compile Include="Assets\Scripts\SlotSetup.cs" />
   </ItemGroup>
   <ItemGroup>

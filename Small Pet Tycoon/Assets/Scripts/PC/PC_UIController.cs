@@ -109,6 +109,7 @@ public class PC_UIController : MonoBehaviour
     {
         Destroy(gameObject);
         Debug.Log("Logged Out");
+        GameManager.disableBGInput = false;
     }
 
     private IEnumerator SlideWindow(float deltaY, GameObject obj, float rate, float defHeight, bool slideUp = true)

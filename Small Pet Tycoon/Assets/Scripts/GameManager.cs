@@ -8,9 +8,11 @@ public class GameManager : MonoBehaviour
     public static int secondsPassed = 0;
     public static float playerFunds = 2500.0f;
     public static Storage playerStorage = new Storage();
+    public static bool disableBGInput = false;
 
     public float lastTime = 0.0f;
     public float period = 1.0f;
+
 
     public static int GetIndex()
     {

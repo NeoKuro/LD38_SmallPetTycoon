@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum SUB_TYPE
+{
+    FISH,
+    REPTILE,
+    INSECT,
+    ARACHNID,
+    UNDEF
+}
+
 public class Items : MonoBehaviour
 {
     public int index = -999;    //Unique index. Whenever a new critter, or item is born/bought, a global value raises
     public string name = "";
     public DATA_TYPE type;    //Container, Equipment, Critter
-    public string subType = ""; //Fish, Reptile etc (Containers wil use this to IE when fill tank with water etc)
+    public SUB_TYPE subType; //Fish, Reptile etc (Containers wil use this to IE when fill tank with water etc)
     public int size = 0;
 
-    public Items(int i, string n, DATA_TYPE t, string sType, int s)
+    public Items(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s)
     {
         index = i;
         name = n;
@@ -149,7 +158,7 @@ public class Equipment : Items
 
     private int lastSecond = 0;
 
-    public Equipment(int i, string n, DATA_TYPE t, string sType, int s, float power, float heat = 0.0f, float humid = 0.0f, float air = 0.0f, float filter = 0.0f) : base(i, n, t, sType, s)
+    public Equipment(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float power, float heat = 0.0f, float humid = 0.0f, float air = 0.0f, float filter = 0.0f) : base(i, n, t, sType, s)
     {
         heatSupply = heat;
         humiditySup = humid;
@@ -212,7 +221,7 @@ public class Critter : Items
     public Container container;
 
 
-    public Critter(int i, string n, DATA_TYPE t, string sType, int s, float mAge, bool shine, bool spark, bool glowy) : base(i, n, t, sType, s)
+    public Critter(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float mAge, bool shine, bool spark, bool glowy) : base(i, n, t, sType, s)
     {
         hunger = 5.0f;
         happiness = 5.0f;
