@@ -62,7 +62,8 @@ public class EquipmentListing : ItemListing
 
 public class CritterListing : ItemListing
 {
-    public string gender;
+    public string breed = "";
+    public string gender = "Male";
     public string type;
     public string description;
 
@@ -75,5 +76,19 @@ public class CritterListing : ItemListing
         type = t;
         description = desc;
         dataType = dType;
+    }
+
+    public CritterListing(CritterListing c)
+    {
+        name = c.name;
+        size = c.size;
+        price = c.price;
+        priceVal = c.priceVal;
+        dataType = c.dataType;
+
+        breed = c.breed;
+        gender = c.gender;
+        type = c.type;
+        description = c.description;
     }
 }

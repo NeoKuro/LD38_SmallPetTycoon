@@ -10,7 +10,7 @@ public class ShoppingBrowser : MonoBehaviour
     public List<GameObject> basketList = new List<GameObject>();
     public List<ItemListing> items = new List<ItemListing>();
     public List<ItemListing> itemsInCart = new List<ItemListing>();
-    public Dictionary<string, int> cartContents = new Dictionary<string, int>();
+    public Dictionary<string, List<ItemListing>> cartContents = new Dictionary<string, List<ItemListing>>();
 
     public void Initialise(List<ItemListing> itemList)
     {
@@ -36,15 +36,15 @@ public class ShoppingBrowser : MonoBehaviour
 
     public void LoadBasketItems()
     {
-        foreach (KeyValuePair<string, int> item in cartContents)
+        foreach (KeyValuePair<string, List<ItemListing>> item in cartContents)
         {
             GameObject newItem = Instantiate(Resources.Load("Prefabs/UI/Desktop/BasketObj")) as GameObject;
             string key = item.Key;
-            ItemListing thisItem = GetItem(key);
+            ItemListing thisItem = item.Value[0];
             newItem.transform.GetChild(0).GetComponent<Text>().text = thisItem.name;
             newItem.transform.GetChild(1).GetComponent<Text>().text = thisItem.size;
             newItem.transform.GetChild(2).GetComponent<Text>().text = thisItem.price;
-            newItem.transform.GetChild(3).GetComponent<Text>().text = item.Value.ToString();
+            newItem.transform.GetChild(3).GetComponent<Text>().text = item.Value.Count.ToString();
 
             newItem.transform.SetParent(transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0));
             newItem.name = key + "_BacketItem";
@@ -61,10 +61,10 @@ public class ShoppingBrowser : MonoBehaviour
         int equipmentCount = 0;
         int crittersCount = 0;
 
-        foreach (KeyValuePair<string, int> item in cartContents)
+        foreach (KeyValuePair<string, List<ItemListing>> item in cartContents)
         {
-            ItemListing thisItem = GetItem(item.Key);
-            float thisCost = thisItem.priceVal * item.Value;
+            ItemListing thisItem = item.Value[0];
+            float thisCost = thisItem.priceVal * item.Value.Count;
             switch (thisItem.dataType)
             {
                 case DATA_TYPE.CONTAINER:
@@ -77,7 +77,7 @@ public class ShoppingBrowser : MonoBehaviour
                     crittersCount++;
                     break;
             }
-            totalObjCount += item.Value;
+            totalObjCount += item.Value.Count;
             totalCost += thisCost;
         }
 
@@ -100,11 +100,12 @@ public class ShoppingBrowser : MonoBehaviour
         }
         if (!cartContents.ContainsKey(item.name))
         {
-            cartContents.Add(item.name, 1);
+            cartContents.Add(item.name, new List<ItemListing>());
+            cartContents[item.name].Add(item);
         }
         else
         {
-            cartContents[item.name] += 1;
+            cartContents[item.name].Add(item);
         }
 
         totalCost += item.priceVal;
@@ -112,20 +113,18 @@ public class ShoppingBrowser : MonoBehaviour
         Debug.Log("totalCost: $" + totalCost);
     }
 
-    public void Decrease(string name)
+    public void Decrease(ItemListing item)
     {
-        if (!cartContents.ContainsKey(name))
+        if (!cartContents.ContainsKey(item.name))
         {
             Debug.Log("Cart does not contain anymore of: " + name);
             return;
         }
 
-        float count = 0.0f;
+        int count = 0;
 
-        count = cartContents[name] - 1;
-        cartContents[name] -= 1;
-
-        ItemListing item = GetItem(name);
+        count = cartContents[name].Count - 1;
+        cartContents[name].RemoveAt(0);
 
         if (count == 0)
         {
@@ -154,22 +153,21 @@ public class ShoppingBrowser : MonoBehaviour
         Debug.Log("TotalCost: $" + totalCost);
     }
 
-    public void Increase(string name)
+    public void Increase(ItemListing item)
     {
-        if (!cartContents.ContainsKey(name))
+        if (!cartContents.ContainsKey(item.name))
         {
             Debug.Log("Cart does not contain anymore of: " + name);
             return;
         }
 
-        cartContents[name] += 1;
-        ItemListing item = GetItem(name);
+        cartContents[name].Add(item);
 
         for (int i = 0; i < basketList.Count; i++)
         {
             if (basketList[i].GetComponent<ShoppingItemBtn>().itemData.name == item.name)
             {
-                basketList[i].transform.GetChild(3).GetComponent<Text>().text = cartContents[item.name].ToString();
+                basketList[i].transform.GetChild(3).GetComponent<Text>().text = cartContents[item.name].Count.ToString();
             }
         }
 
@@ -182,11 +180,11 @@ public class ShoppingBrowser : MonoBehaviour
     {
         if (GameManager.playerFunds >= totalCost)
         {
-            foreach (KeyValuePair<string, int> cartItem in cartContents)
+            foreach (KeyValuePair<string, List<ItemListing>> cartItem in cartContents)
             {
-                for (int i = 0; i < cartItem.Value; i++)
+                for (int i = 0; i < cartItem.Value.Count; i++)
                 {
-                    ItemListing item = GetItem(cartItem.Key);
+                    ItemListing item = cartItem.Value[i];
                     if (item.dataType == DATA_TYPE.CONTAINER)
                     {
                         GameObject thisObj = Instantiate(Resources.Load("Prefabs/Containers/Container_Size" + item.size) as GameObject);

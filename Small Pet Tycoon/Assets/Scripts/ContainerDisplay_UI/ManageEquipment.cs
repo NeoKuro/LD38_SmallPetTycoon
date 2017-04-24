@@ -167,14 +167,14 @@ public class ManageEquipment : MonoBehaviour
             //Update the container equipment list
             for (int i = 0; i < toAdd.Count; i++)
             {
-                if (container.equipmentList.ContainsKey(container.currSlot))
+                if (container.equipmentList.ContainsKey(container.equipUniqueIndex))
                 {
                     continue;
                 }
 
                 toAdd[i].container = container;
-                toAdd[i].slotIndex = container.currSlot;
-                container.AddEquipment(toAdd[i], container.currSlot);
+                toAdd[i].slotIndex = container.equipUniqueIndex;
+                container.AddEquipment(toAdd[i], container.equipUniqueIndex);
             }
         }
 

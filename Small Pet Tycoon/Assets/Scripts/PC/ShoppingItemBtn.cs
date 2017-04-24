@@ -19,30 +19,36 @@ public class ShoppingItemBtn : MonoBehaviour
 
         if(isCritters)
         {
-            CritterListing cListing = (CritterListing)itemData;
-            cListing.gender = "Female";
+            CritterListing cListing = new CritterListing((CritterListing)itemData);
+            cListing.gender = "";
             if (maleSelected)
+            { 
                 cListing.gender = "Male";
+            }
+            else
+            {
+                cListing.gender = "Female";
+            }
+
+            cListing.name = cListing.breed + "_" + cListing.gender;
 
             itemData = cListing;
         }
-
         transform.parent.parent.parent.parent.parent.GetComponent<ShoppingBrowser>().AddToCart(itemData);
     }
 
     public void CheckBoxChanged(Toggle toggleBtn)
     {
         maleSelected = toggleBtn.isOn;
-        Debug.Log(maleSelected);
     }
 
     public void AddQuanity()
     {
-        transform.parent.parent.parent.parent.parent.GetComponent<ShoppingBrowser>().Increase(itemData.name);
+        transform.parent.parent.parent.parent.parent.GetComponent<ShoppingBrowser>().Increase(itemData);
     }
 
     public void RemoveQuantity()
     {
-        transform.parent.parent.parent.parent.parent.GetComponent<ShoppingBrowser>().Decrease(itemData.name);
+        transform.parent.parent.parent.parent.parent.GetComponent<ShoppingBrowser>().Decrease(itemData);
     }
 }

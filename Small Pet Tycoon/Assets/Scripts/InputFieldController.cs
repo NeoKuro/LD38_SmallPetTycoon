@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ChangeName : MonoBehaviour
+public class InputFieldController : MonoBehaviour
 {
     private string customName = "";
     private bool changeName = false;
@@ -37,7 +37,7 @@ public class ChangeName : MonoBehaviour
                 }
                 else if (transform.parent.parent.name.ToLower().Contains("critters"))
                 {
-                    transform.parent.parent.GetComponent<CritterDisplayListing>().critter.customName= customName;
+                    transform.parent.parent.GetComponent<ManageCritters>().selectedCritter.customName= customName;
                 }
             }
         }

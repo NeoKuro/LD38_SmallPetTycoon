@@ -48,8 +48,8 @@ public class ItemHandler : MonoBehaviour
                 bool shiny = RandBool(1);   //0.1% chance
                 bool glow = RandBool(1);    //0.1% chance
                 bool sparkle = RandBool(1); //0.1% chance
-                itemData = new Critter(index, item.name, DATA_TYPE.CRITTER, GetSubType(cItem.type),
-                                                                                    System.Convert.ToInt32(cItem.size), randAge, shiny, sparkle, glow);
+                itemData = new Critter(index, cItem.breed, DATA_TYPE.CRITTER, GetSubType(cItem.type),
+                                                                                    System.Convert.ToInt32(cItem.size), randAge, shiny, sparkle, glow, cItem.gender);
                 GameManager.playerStorage.critterStorage.Add(index, (Critter)itemData);
                 StartCoroutine(itemData.RunCoroutine());
                 break;

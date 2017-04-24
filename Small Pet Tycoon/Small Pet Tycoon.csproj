@@ -81,12 +81,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ChangeName.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddCritterItem.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddCritterList.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddEquipItem.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddEquipmentList.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\ContainerDisplay.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\CritterDisplayItem.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\CritterDisplayListing.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\EquipmentDisplayItem.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\ManageCritters.cs" />
@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\SlotSetupController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Glow.cs" />
+    <Compile Include="Assets\Scripts\InputFieldController.cs" />
     <Compile Include="Assets\Scripts\Items\ItemHandler.cs" />
     <Compile Include="Assets\Scripts\Items\ItemListController.cs" />
     <Compile Include="Assets\Scripts\Items\ItemListing.cs" />

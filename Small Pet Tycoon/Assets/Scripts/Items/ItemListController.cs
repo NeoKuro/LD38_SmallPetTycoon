@@ -105,6 +105,7 @@ public class ItemListController : MonoBehaviour
         {
             string[] lineEntries = Regex.Split(textLines[i], ",");
             CritterListing item = new CritterListing(lineEntries[0], lineEntries[1], lineEntries[2], System.Convert.ToInt32(lineEntries[2]), lineEntries[3], lineEntries[4], DATA_TYPE.CRITTER);
+            item.breed = item.name;
             items.Add(item);
         }
     }
@@ -182,25 +183,25 @@ public class ItemListController : MonoBehaviour
             return;
         }
 
-        List<CritterListing> eListing = new List<CritterListing>();
+        List<CritterListing> crListing = new List<CritterListing>();
         for (int i = 0; i < items.Count; i++)
         {
-            eListing.Add((CritterListing)items[i]);
+            crListing.Add((CritterListing)items[i]);
         }
 
         for (int i = 0; i < items.Count; i++)
         {
             GameObject newitem = Instantiate(critterItem);
-            newitem.transform.GetChild(0).GetComponent<Text>().text = eListing[i].name;
-            newitem.transform.GetChild(1).GetComponent<Text>().text = eListing[i].size;
-            newitem.transform.GetChild(2).GetComponent<Text>().text = eListing[i].price;
-            newitem.transform.GetChild(3).GetComponent<Text>().text = eListing[i].type;
-            newitem.transform.GetChild(4).GetComponent<Text>().text = eListing[i].description;
+            newitem.transform.GetChild(0).GetComponent<Text>().text = crListing[i].name;
+            newitem.transform.GetChild(1).GetComponent<Text>().text = crListing[i].size;
+            newitem.transform.GetChild(2).GetComponent<Text>().text = crListing[i].price;
+            newitem.transform.GetChild(3).GetComponent<Text>().text = crListing[i].type;
+            newitem.transform.GetChild(4).GetComponent<Text>().text = crListing[i].description;
             //newitem.transform.GetChild(3).GetComponent<Text>().text = cListing[i].img;   //URL to the image (name of image in an 'Img' directory in resources?)
 
             newitem.transform.SetParent(itemListingObj.transform.GetChild(0).GetChild(0).GetChild(0));
             newitem.name = items[i].name + "_ItemListing";
-            newitem.GetComponent<ShoppingItemBtn>().itemData = eListing[i];
+            newitem.GetComponent<ShoppingItemBtn>().itemData = crListing[i];
             newitem.GetComponent<ShoppingItemBtn>().isCritters = true;
             itemObjects.Add(newitem);
         }

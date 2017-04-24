@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ContainerSlot : MonoBehaviour
 {
-    public int index = -999;   //Which slot in the game are they(?)
+    public int index = -999;   //Which slot in the game are they(?) -- Phsyical Position
     public int slotSize = 2;
     public int maxContainers = 1;
     public int remainingSpace = 2;

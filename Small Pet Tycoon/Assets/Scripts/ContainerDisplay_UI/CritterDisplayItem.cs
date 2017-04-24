@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipmentDisplayItem : MonoBehaviour
+public class CritterDisplayItem : MonoBehaviour
 {
-    public int eIndex = -999;
+    public int cIndex = -999;
 
     public void OnItemClicked()
     {
-        ManageEquipment manager = transform.parent.parent.parent.parent.parent.GetComponent<ManageEquipment>();
+        ManageCritters manager = transform.parent.parent.parent.parent.parent.GetComponent<ManageCritters>();
 
         if (manager.selectedButton != null)
         {
@@ -18,6 +18,6 @@ public class EquipmentDisplayItem : MonoBehaviour
 
         manager.selectedButton = gameObject;
         GetComponent<Button>().interactable = false;
-        manager.OnItemSelected(eIndex);
+        manager.OnItemSelected(cIndex);
     }
 }

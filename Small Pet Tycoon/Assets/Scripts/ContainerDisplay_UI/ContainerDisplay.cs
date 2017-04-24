@@ -65,7 +65,10 @@ public class ContainerDisplay : MonoBehaviour
 
     public void OnManageCrittersPressed()
     {
-
+        closeBtn.SetActive(false);
+        defaultDisplay.SetActive(false);
+        manageCritters.SetActive(true);
+        manageCritters.GetComponent<ManageCritters>().OnManageCritterOpen(slotIndex, container);
     }
 
     public void OnRemoveContainerPressed()

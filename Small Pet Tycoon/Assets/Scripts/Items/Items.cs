@@ -53,7 +53,7 @@ public class Container : Items
     public int currCapacity = 0;
     public int equipmentSlots = 0;  //How much room for equipment is there?
     public int usedSlots = 0;
-    public int currSlot = 0;            //Each time equip added, this will increase. Never decreases (ensures unique slot ID all the time)
+    public int equipUniqueIndex = 0;            //Each time equip added, this will increase. Never decreases (ensures unique slot ID all the time)
     public float cleanliness = 0.0f;    //How clean (0-100) is the container?
     public float foodLevels = 0.0f;     //How much food is left in the container? 0 - 10
     public bool placed = false;
@@ -83,7 +83,7 @@ public class Container : Items
         currCapacity = c.currCapacity;
         equipmentSlots = c.equipmentSlots;
         usedSlots = c.usedSlots;
-        currSlot = c.currSlot;
+        equipUniqueIndex = c.equipUniqueIndex;
         cleanliness = c.cleanliness;
         foodLevels = c.foodLevels;
         placed = c.placed;
@@ -122,7 +122,7 @@ public class Container : Items
         equipment.slotIndex = slot;
         equipmentList.Add(slot, equipment);
         usedSlots++;
-        currSlot++;
+        equipUniqueIndex++;
         GameManager.playerStorage.equipmentStorage.Remove(equipment.index);
     }
 
@@ -258,12 +258,15 @@ public class Equipment : Items
 public class Critter : Items
 {
     public string customName = "";
+    public string sex = "";
     public float hunger = 0.0f;     //How hungry is this critter? (0-10, 10 = full)
     public float age = 0.0f;        //How old is critter?
     public float maxAge = 0.0f;     //When will this critter die of old age? (Cannot be changed, randomly generated based on parents?)
+    public float hygiene = 0.0f;    //How healthy/clean is a creature? 0-10. As the container cleanliness goes down, so too does the hygiene
     public float happiness = 0.0f;  //How happy is this critter? (0-10) -- Happiness depends on environment, space etc
-    public bool pregnant = false;   //Is this critter pregnant?
+    public float price = 0.0f;      //Player set price of the critter
     public int children = 0;        //How many children has this critter had?
+    public bool pregnant = false;   //Is this critter pregnant?
     public bool shiny = false;
     public bool sparkle = false;
     public bool glow = false;
@@ -271,8 +274,9 @@ public class Critter : Items
     public Container container;
 
 
-    public Critter(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float mAge, bool shine, bool spark, bool glowy) : base(i, n, t, sType, s)
+    public Critter(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float mAge, bool shine, bool spark, bool glowy, string sx) : base(i, n, t, sType, s)
     {
+        sex = sx;
         hunger = 5.0f;
         happiness = 5.0f;
         maxAge = mAge;
