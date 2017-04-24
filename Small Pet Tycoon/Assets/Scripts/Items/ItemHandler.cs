@@ -73,14 +73,14 @@ public class ItemHandler : MonoBehaviour
         {
             case "fish":
                 return SUB_TYPE.FISH;
-            case "reptile":
+            case "reptiles":
                 return SUB_TYPE.REPTILE;
-            case "insect":
+            case "insects":
                 return SUB_TYPE.INSECT;
-            case "arachnid":
+            case "arachnids":
                 return SUB_TYPE.ARACHNID;
         }
 
-        return SUB_TYPE.REPTILE;
+        return SUB_TYPE.UNDEF;
     }
 }

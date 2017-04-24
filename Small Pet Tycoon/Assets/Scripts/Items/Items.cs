@@ -15,7 +15,7 @@ public enum SUB_TYPE
 public class Items : MonoBehaviour
 {
     public int index = -999;    //Unique index. Whenever a new critter, or item is born/bought, a global value raises
-    public string name = "";
+    public string objName = "";
     public DATA_TYPE type;    //Container, Equipment, Critter
     public SUB_TYPE subType; //Fish, Reptile etc (Containers wil use this to IE when fill tank with water etc)
     public int size = 0;
@@ -23,17 +23,20 @@ public class Items : MonoBehaviour
     public Items(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s)
     {
         index = i;
-        name = n;
+        objName = n;
         type = t;
         subType = sType;
         size = s;
     }
 
+    //Container constructor
     public Items(int i, string n, int s)
     {
         index = i;
-        name = n;
+        objName = n;
         size = s;
+        type = DATA_TYPE.CONTAINER;
+        subType = SUB_TYPE.UNDEF;
     }
 
     public virtual IEnumerator RunCoroutine()
@@ -50,11 +53,12 @@ public class Container : Items
     public int currCapacity = 0;
     public int equipmentSlots = 0;  //How much room for equipment is there?
     public int usedSlots = 0;
+    public int currSlot = 0;            //Each time equip added, this will increase. Never decreases (ensures unique slot ID all the time)
     public float cleanliness = 0.0f;    //How clean (0-100) is the container?
     public float foodLevels = 0.0f;     //How much food is left in the container? 0 - 10
     public bool placed = false;
     public GameObject thisGameObject;
-    public List<Equipment> equipmentList = new List<Equipment>();
+    public Dictionary<int, Equipment> equipmentList = new Dictionary<int, Equipment>();
     public List<Critter> critterList = new List<Critter>();
 
     public Container(int i, string n, int s, GameObject go) : base(i, n, s)
@@ -66,6 +70,26 @@ public class Container : Items
         cleanliness = 50.0f;
         foodLevels = 2.5f;
         thisGameObject = go;
+    }
+
+    //Make a new copy
+    public Container(Container c) : base(c.index, c.objName, c.size)
+    {
+        type = c.type;
+        subType = c.subType;
+        customName = new string(c.customName.ToCharArray());
+        containerSlot = c.containerSlot;
+        maxCapacity = c.maxCapacity;
+        currCapacity = c.currCapacity;
+        equipmentSlots = c.equipmentSlots;
+        usedSlots = c.usedSlots;
+        currSlot = c.currSlot;
+        cleanliness = c.cleanliness;
+        foodLevels = c.foodLevels;
+        placed = c.placed;
+        thisGameObject = c.thisGameObject;
+        equipmentList = new Dictionary<int, Equipment>(c.equipmentList);
+        critterList = new List<Critter>(c.critterList);
     }
 
     public void SetCustomName(string newName)
@@ -90,19 +114,25 @@ public class Container : Items
         return freeze;
     }
 
-    public void AddEquipment(Equipment equipment)
+    public void AddEquipment(Equipment equipment, int slot)
     {
-       // equipment.slotIndex = slot;
+        // equipment.slotIndex = slot;
+        subType = equipment.subType;
         equipment.container = this;
-        equipmentList.Add(equipment);
+        equipment.slotIndex = slot;
+        equipmentList.Add(slot, equipment);
+        usedSlots++;
+        currSlot++;
         GameManager.playerStorage.equipmentStorage.Remove(equipment.index);
     }
 
     public void RemoveEquipment(int slot)
     {
         GameManager.playerStorage.equipmentStorage.Add(equipmentList[slot].index, equipmentList[slot]);
+        equipmentList[slot].slotIndex = -999;
         equipmentList[slot].container = null;
-        equipmentList.RemoveAt(slot);
+        equipmentList.Remove(slot);
+        usedSlots--;
     }
 
     public void AddCritter(Critter critter)
@@ -110,6 +140,7 @@ public class Container : Items
         critterList.Add(critter);
         GameManager.playerStorage.critterStorage.Remove(critter.index);
         critter.container = this;
+        currCapacity++;
     }
 
     public void RemoveCritter(Critter critter)
@@ -117,6 +148,7 @@ public class Container : Items
         critterList.Remove(critter);
         critter.container = null;
         GameManager.playerStorage.critterStorage.Add(critter.index, critter);
+        currCapacity--;
     }
 
     public void PlaceContainer(int slot)
@@ -213,7 +245,7 @@ public class Equipment : Items
     {
         if (container != null)
         {
-            container.equipmentList.Remove(this);
+            container.equipmentList.Remove(slotIndex);
         }
         else if (GameManager.playerStorage.equipmentStorage.ContainsKey(index))
         {

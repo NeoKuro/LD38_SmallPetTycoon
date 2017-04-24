@@ -82,7 +82,7 @@ public class SlotSetupController : MonoBehaviour
         foreach (KeyValuePair<int, Container> container in containersList)
         {
             GameObject newItem = Instantiate(containerListItem);
-            newItem.transform.GetChild(0).GetComponent<Text>().text = container.Value.name;
+            newItem.transform.GetChild(0).GetComponent<Text>().text = container.Value.objName;
             newItem.transform.GetChild(1).GetComponent<Text>().text = container.Value.size.ToString();
             newItem.transform.GetChild(2).GetComponent<Text>().text = container.Value.equipmentSlots.ToString();
             newItem.transform.SetParent(containerSelector.transform.GetChild(1).GetChild(0).GetChild(0).transform);
@@ -116,7 +116,7 @@ public class SlotSetupController : MonoBehaviour
         foreach (KeyValuePair<int, Equipment> equipment in containerSetup[containerUniqueIndex])
         {
             GameObject newItem = Instantiate(equipmentListItem);
-            newItem.transform.GetChild(0).GetComponent<Text>().text = equipment.Value.name;
+            newItem.transform.GetChild(0).GetComponent<Text>().text = equipment.Value.objName;
 
             GetTopTwoValues(newItem, equipment.Value);
 
@@ -143,7 +143,7 @@ public class SlotSetupController : MonoBehaviour
         foreach (KeyValuePair<int, Equipment> equipment in equipmentStorageList)
         {
             GameObject newItem = Instantiate(equipmentListItem);
-            newItem.transform.GetChild(0).GetComponent<Text>().text = equipment.Value.name;
+            newItem.transform.GetChild(0).GetComponent<Text>().text = equipment.Value.objName;
 
             GetTopTwoValues(newItem, equipment.Value);
 
@@ -237,20 +237,39 @@ public class SlotSetupController : MonoBehaviour
     {
         //Add equipment to the Container Object (Items.cs)
         //      No need to check if enough slots etc. Done previously in OnConfirmEquipmentSelection() method
+        // For each equipment, set the slot index
+        int count = 0;
         foreach (KeyValuePair<int, Equipment> equipment in containerSetup[containerUniqueIndex])
         {
-            equipment.Value.container = selectedContainers[containerIndex];
-            selectedContainers[containerIndex].AddEquipment(equipment.Value);
+            bool alreadyAdded = false;
+            for(int i = 0; i < selectedContainers[containerIndex].equipmentList.Count; i++)
+            {
+                if(selectedContainers[containerIndex].equipmentList[i].index == equipment.Value.index)
+                {
+                    alreadyAdded = true;
+                }
+            }
+
+            if (!alreadyAdded)
+            {
+                equipment.Value.container = selectedContainers[containerIndex];
+                selectedContainers[containerIndex].AddEquipment(equipment.Value, count);
+                count++;
+                Debug.Log("Slot: " + equipment.Value.slotIndex);
+            }
         }
 
         //Place Container in Slot
         selectedContainers[containerIndex].PlaceContainer(slotIndex);
 
-        //Add container to list in the ContainerSlot
-        GameManager.slots[slotIndex].AddContainer(selectedContainers[containerIndex]);
-
-        //Remove from storage
-        GameManager.playerStorage.containerStorage.Remove(selectedContainers[containerIndex].index);
+        //Only adds it if its 'new'...IE if press "EDIT" will not add again
+        if (!GameManager.slots[slotIndex].containers.Contains(selectedContainers[containerIndex]))
+        {
+            //Add container to list in the ContainerSlot
+            GameManager.slots[slotIndex].AddContainer(selectedContainers[containerIndex]);
+            //Remove from storage
+            GameManager.playerStorage.containerStorage.Remove(selectedContainers[containerIndex].index);
+        }
 
         //Move Container to Slot location (containers will have gameobjects eventually)
         selectedContainers[containerIndex].thisGameObject.transform.SetParent(GameManager.slots[slotIndex].gameObject.transform);
@@ -301,9 +320,11 @@ public class SlotSetupController : MonoBehaviour
     {
         if (equipmentList.ContainsKey(index))
         {
+            Equipment thisEquip = containerSetup[containerUniqueIndex][index];
+            GameManager.slots[slotIndex].containers[containerUniqueIndex].RemoveEquipment(thisEquip.slotIndex);
             Destroy(equipmentList[index]);
             equipmentList.Remove(index);
-            equipmentSelector.GetComponent<EquipmentSelector>().selectedEquipment.Remove(index);
+            containerSetup[containerUniqueIndex].Remove(index);
         }
         else
         {

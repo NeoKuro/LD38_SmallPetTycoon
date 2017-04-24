@@ -87,7 +87,7 @@ public class ActiveContainers : MonoBehaviour
     private void UpdateStats()
     {
         Container selected = placedContainers[currIndex];
-        transform.GetChild(0).GetComponent<Text>().text = selected.name;
+        transform.GetChild(0).GetComponent<Text>().text = selected.objName;
         transform.GetChild(1).GetComponent<Text>().text = selected.size.ToString();
         transform.GetChild(2).GetComponent<Text>().text = selected.equipmentList.Count.ToString();
         transform.GetChild(3).GetComponent<Text>().text = selected.equipmentSlots.ToString();

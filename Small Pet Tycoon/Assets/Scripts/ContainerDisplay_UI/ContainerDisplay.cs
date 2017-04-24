@@ -8,6 +8,7 @@ public class ContainerDisplay : MonoBehaviour
     public int slotIndex;
     public Container container;
 
+    private GameObject closeBtn;
     private GameObject defaultDisplay;
     private GameObject manageEquipment;
     private GameObject manageCritters;
@@ -20,10 +21,12 @@ public class ContainerDisplay : MonoBehaviour
         slotIndex = index;
         container = thisContainer;
 
+        closeBtn = transform.GetChild(0).GetChild(0).gameObject;
         defaultDisplay = transform.GetChild(1).GetChild(0).gameObject;
         manageEquipment = transform.GetChild(1).GetChild(1).gameObject;
         manageCritters = transform.GetChild(1).GetChild(2).gameObject;
 
+        closeBtn.SetActive(true);
         UpdateData();
     }
 
@@ -40,6 +43,40 @@ public class ContainerDisplay : MonoBehaviour
             counter = 0;
             UpdateData();
         }        
+    }
+
+    public void OnViewHabitatPressed()
+    {
+
+    }
+
+    public void OnManageEquipmentPressed()
+    {
+        closeBtn.SetActive(false);
+        defaultDisplay.SetActive(false);
+        manageEquipment.SetActive(true);
+        manageEquipment.GetComponent<ManageEquipment>().OnManageEquipmentOpen(slotIndex, container);
+    }
+
+    public void OnAddDecorPressed()
+    {
+
+    }
+
+    public void OnManageCrittersPressed()
+    {
+
+    }
+
+    public void OnRemoveContainerPressed()
+    {
+
+    }
+
+    public void OnClose()
+    {
+        GameManager.disableBGInput = false;
+        Destroy(gameObject);
     }
 
     private void UpdateData()
@@ -79,33 +116,26 @@ public class ContainerDisplay : MonoBehaviour
         }
 
         float tempTemperature = 21.0f;
-        float heatOut = 0.0f;
-
-        if (container.subType == SUB_TYPE.FISH)
-        {
-            tempTemperature = 15.0f;
-        }
-
-        for(int i = 0; i < container.equipmentList.Count; i++)
-        {
-            heatOut += container.equipmentList[i].heatSupply;
-        }
-
-        float heat = heatOut / Mathf.Pow(container.size, 2);
-        tempTemperature += (heat + Random.Range(-3.0f, 3.0f));
-
         float tempHumidity = Random.Range(40.0f, 50.0f);
+        float heatOut = 0.0f;
         float humid = 0.0f;
 
         if (container.subType == SUB_TYPE.FISH)
         {
-            humid = 100.0f;
+            tempTemperature = 15.0f;
+            humid = 15.0f;
         }
-        
-        for (int i = 0; i < container.equipmentList.Count; i++)
+
+
+        foreach (KeyValuePair<int, Equipment> item in container.equipmentList)
         {
-            humid += container.equipmentList[i].humiditySup;
+            heatOut += item.Value.heatSupply;
+            humid += item.Value.humiditySup;
         }
+
+        float heat = heatOut / Mathf.Pow(container.size, 2);
+        tempTemperature += (heat + Random.Range(-3.0f, 3.0f));
+        
 
         float tHumid = humid / Mathf.Pow(container.size, 2);
         tempHumidity += tHumid;
@@ -129,6 +159,12 @@ public class ContainerDisplay : MonoBehaviour
         defaultDisplay.transform.GetChild(0).GetChild(9).GetComponent<Text>().text = happiness;
         defaultDisplay.transform.GetChild(0).GetChild(10).GetComponent<Text>().text = temperature;
         defaultDisplay.transform.GetChild(0).GetChild(11).GetComponent<Text>().text = humidity;
+
+        defaultDisplay.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = true;
+        if (container.subType == SUB_TYPE.UNDEF)
+        {
+            defaultDisplay.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = false;
+        }
 
     }
 }

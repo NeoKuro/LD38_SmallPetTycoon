@@ -52,6 +52,9 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -67,6 +70,9 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
     </Reference>
@@ -76,8 +82,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ChangeName.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddCritterItem.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddCritterList.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddEquipItem.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\AddEquipmentList.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\ContainerDisplay.cs" />
     <Compile Include="Assets\Scripts\ContainerDisplay_UI\CritterDisplayListing.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\EquipmentDisplayItem.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\ManageCritters.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\ManageEquipment.cs" />
     <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\ActiveContainers.cs" />
     <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\ContainerListItem.cs" />
     <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\ContainerSlot.cs" />

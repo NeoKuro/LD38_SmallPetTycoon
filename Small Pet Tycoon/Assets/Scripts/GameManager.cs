@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public static int GetIndex()
     {
         indexPosition++;
-        return indexPosition - 1;
+        return indexPosition;
     }
 
     public void Awake()
@@ -47,6 +47,20 @@ public class Storage
     public Dictionary<int, Container> containerStorage = new Dictionary<int, Container>();
     public float fishFoodStocks = 0.0f;
     public float reptileFoodStocks = 0.0f;
+
+    public Storage()
+    {
+
+    }
+
+    public Storage(Storage s)
+    {
+        equipmentStorage = new Dictionary<int, Equipment>(s.equipmentStorage);
+        critterStorage = new Dictionary<int, Critter>(s.critterStorage);
+        containerStorage = new Dictionary<int, Container>(s.containerStorage);
+        fishFoodStocks = s.fishFoodStocks;
+        reptileFoodStocks = s.reptileFoodStocks;
+    }
 
     public void AddEquipment(int index, Equipment equipment)
     {
