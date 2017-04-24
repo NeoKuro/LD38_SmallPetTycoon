@@ -13,6 +13,7 @@ public class ManageCritters : MonoBehaviour
     private int selectedCritterIndex = -999;
     private int lastSecond = 0;
     private int timerCount = 0;
+    private int timerCount2 = 0;
     private bool displayInfo = false;
     private bool changePrice = false;
 
@@ -44,16 +45,40 @@ public class ManageCritters : MonoBehaviour
             }
         }
 
+        if (lastSecond != GameManager.secondsPassed)
+        {
+            lastSecond = GameManager.secondsPassed;
+            if(displayInfo)
+                timerCount++;
+            timerCount2++;
+        }
+
+        if (timerCount2 >= 15)
+        {
+            timerCount2 = 0;
+
+            foreach (KeyValuePair<int, ContainerSlot> slot in GameManager.slots)
+            {
+                for (int i = 0; i < slot.Value.containers.Count; i++)
+                {
+                    if (slot.Value.containers[i].index == container.index)
+                    {
+                        container = slot.Value.containers[i];
+                    }
+                }
+            }
+
+            if(crittersObj.Count != container.critterList.Count)
+            {
+                ResetList();
+                LoadCritters();
+            }
+        }
+
 
         if (!displayInfo)
         {
             return;
-        }
-
-        if (lastSecond != GameManager.secondsPassed)
-        {
-            lastSecond = GameManager.secondsPassed;
-            timerCount++;
         }
 
         if (timerCount >= 5)
@@ -158,8 +183,10 @@ public class ManageCritters : MonoBehaviour
             }
             critterOptionsObj.transform.GetChild(3).GetComponent<Button>().interactable = true;
             timerCount = 0;
-            break;
+            return;
         }
+        displayInfo = false;
+        Debug.Log("Does not exist anymore (Sold)");
     }
 
     public void OnAddCritterSelected(GameObject selectedBtn)
@@ -302,6 +329,7 @@ public class ManageCritters : MonoBehaviour
 
     private void LoadCritterInformation()
     {
+
         critterInfoObj.transform.GetChild(0).GetComponent<Text>().text = selectedCritter.customName;
         critterInfoObj.transform.GetChild(2).GetComponent<Text>().text = selectedCritter.subType.ToString();
         critterInfoObj.transform.GetChild(3).GetComponent<Text>().text = selectedCritter.objName;
@@ -345,5 +373,15 @@ public class ManageCritters : MonoBehaviour
                 return "F";
         }
         return "?";
+    }
+
+    private void ResetList()
+    {
+        //Clear the List
+        for (int i = 0; i < crittersObj.Count; i++)
+        {
+            Destroy(crittersObj[i]);
+        }
+        crittersObj.Clear();
     }
 }

@@ -39,7 +39,7 @@ public class ItemHandler : MonoBehaviour
                 EquipmentListing eItem = (EquipmentListing)item;
                 itemData = new Equipment(index, item.name, DATA_TYPE.EQUIPMENT, GetSubType(eItem.type),
                                                                                         System.Convert.ToInt32(eItem.size), eItem.powerCost,
-                                                                                        eItem.heat, eItem.humidity, eItem.airPump, eItem.waterFilter);
+                                                                                        eItem.heat, eItem.humidity, eItem.airPump, eItem.waterFilter, gameObject);
                 GameManager.playerStorage.equipmentStorage.Add(index, (Equipment)itemData);
                 break;
             case DATA_TYPE.CRITTER:
@@ -49,7 +49,7 @@ public class ItemHandler : MonoBehaviour
                 bool glow = RandBool(1);    //0.1% chance
                 bool sparkle = RandBool(1); //0.1% chance
                 itemData = new Critter(index, cItem.breed, DATA_TYPE.CRITTER, GetSubType(cItem.type),
-                                                                                    System.Convert.ToInt32(cItem.size), randAge, shiny, sparkle, glow, cItem.gender);
+                                                                                    System.Convert.ToInt32(cItem.size), randAge, shiny, sparkle, glow, cItem.gender, gameObject);
                 GameManager.playerStorage.critterStorage.Add(index, (Critter)itemData);
                 StartCoroutine(itemData.RunCoroutine());
                 break;

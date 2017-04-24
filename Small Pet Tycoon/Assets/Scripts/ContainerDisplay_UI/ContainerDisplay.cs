@@ -52,6 +52,7 @@ public class ContainerDisplay : MonoBehaviour
 
     public void OnManageEquipmentPressed()
     {
+        UpdateContainer();
         closeBtn.SetActive(false);
         defaultDisplay.SetActive(false);
         manageEquipment.SetActive(true);
@@ -65,6 +66,7 @@ public class ContainerDisplay : MonoBehaviour
 
     public void OnManageCrittersPressed()
     {
+        UpdateContainer();
         closeBtn.SetActive(false);
         defaultDisplay.SetActive(false);
         manageCritters.SetActive(true);
@@ -169,5 +171,22 @@ public class ContainerDisplay : MonoBehaviour
             defaultDisplay.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = false;
         }
 
+    }
+
+    private void UpdateContainer()
+    {
+        foreach (KeyValuePair<int, ContainerSlot> slot in GameManager.slots)
+        {
+            for (int i = 0; i < slot.Value.containers.Count; i++)
+            {
+                if (slot.Value.containers[i].index == container.index)
+                {
+                    Debug.Log("Slot: " + slotIndex + "    GMSlot: " + slot.Value.index);
+                    Debug.Log("Critter Count Pre: " + container.critterList.Count);
+                    container = slot.Value.containers[i];
+                    Debug.Log("Critter Count Post: " + container.critterList.Count);
+                }
+            }
+        }
     }
 }

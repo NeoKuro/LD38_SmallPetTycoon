@@ -204,16 +204,18 @@ public class Equipment : Items
     public float airSupply = 0.0f;  //Air supplied to water tank 
     public float filterRate = 0.0f; //Amount of water processed each minute
     public Container container;
+    public GameObject thisGameObject;
 
     private int lastSecond = 0;
 
-    public Equipment(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float power, float heat = 0.0f, float humid = 0.0f, float air = 0.0f, float filter = 0.0f) : base(i, n, t, sType, s)
+    public Equipment(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float power, float heat, float humid, float air, float filter, GameObject go) : base(i, n, t, sType, s)
     {
         heatSupply = heat;
         humiditySup = humid;
         powerUsage = power;
         airSupply = air;
         filterRate = filter;
+        thisGameObject = go;
     }
 
     public override IEnumerator RunCoroutine()
@@ -265,6 +267,7 @@ public class Critter : Items
     public float hygiene = 0.0f;    //How healthy/clean is a creature? 0-10. As the container cleanliness goes down, so too does the hygiene
     public float happiness = 0.0f;  //How happy is this critter? (0-10) -- Happiness depends on environment, space etc
     public float price = 0.0f;      //Player set price of the critter
+    public float actualValue = 0.0f;//Actual value of this critter as the AI/NPC system sees it (Basic Economy system --- age)
     public int children = 0;        //How many children has this critter had?
     public bool pregnant = false;   //Is this critter pregnant?
     public bool shiny = false;
@@ -273,8 +276,10 @@ public class Critter : Items
 
     public Container container;
 
+    public GameObject thisGameObject;
 
-    public Critter(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float mAge, bool shine, bool spark, bool glowy, string sx) : base(i, n, t, sType, s)
+
+    public Critter(int i, string n, DATA_TYPE t, SUB_TYPE sType, int s, float mAge, bool shine, bool spark, bool glowy, string sx, GameObject go) : base(i, n, t, sType, s)
     {
         sex = sx;
         hunger = 5.0f;
@@ -283,9 +288,12 @@ public class Critter : Items
         shiny = shine;
         sparkle = spark;
         glow = glowy;
+        thisGameObject = go;
+
+        GameManager.playerStorage.allCritters.Add(this);
 
         //Add component to GameObject for AI behaviour (very simple, feed when hungry, randomly move, attack when pissed)
-        
+
     }
 
     public void SetCustomName(string newName)
@@ -330,6 +338,7 @@ public class Critter : Items
         while (age < maxAge)
         {
             age++;
+            Debug.Log("Age : " + age);
             yield return new WaitForSeconds(1.0f);
         }
 
