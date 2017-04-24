@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public static int indexPosition = 0;
     public static int secondsPassed = 0;
     public static float playerFunds = 2500.0f;
     public static Storage playerStorage = new Storage();
+    public static Dictionary<int, ContainerSlot> slots = new Dictionary<int, ContainerSlot>();      //Int = Slot Index
     public static bool disableBGInput = false;
 
     public float lastTime = 0.0f;
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         Random.InitState((int)System.DateTime.Now.Ticks);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Update()

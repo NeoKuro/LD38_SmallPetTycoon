@@ -32,7 +32,7 @@ public class EquipmentListItem : MonoBehaviour
 
     public void RemoveEquipment()
     {
-        //transform.parent.parent.parent.parent.parent.parent.GetComponent<SlotSetupController>().RemoveEquipment(equipment.index);   //Use a Dictionary
+        transform.parent.parent.parent.parent.parent.parent.GetComponent<SlotSetupController>().OnRemoveEquipmentItem(equipment.index); 
     }
 
     public void OnToggleChange(Toggle tg)

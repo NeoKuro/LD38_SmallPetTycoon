@@ -75,10 +75,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ContainerListItem.cs" />
-    <Compile Include="Assets\Scripts\EquipmentListItem.cs" />
-    <Compile Include="Assets\Scripts\EquipmentSelector.cs" />
+    <Compile Include="Assets\Scripts\ChangeName.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\ContainerDisplay.cs" />
+    <Compile Include="Assets\Scripts\ContainerDisplay_UI\CritterDisplayListing.cs" />
+    <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\ActiveContainers.cs" />
+    <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\ContainerListItem.cs" />
+    <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\ContainerSlot.cs" />
+    <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\EquipmentListItem.cs" />
+    <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\EquipmentSelector.cs" />
+    <Compile Include="Assets\Scripts\ContainerSlotSetup_UI\SlotSetupController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Glow.cs" />
     <Compile Include="Assets\Scripts\Items\ItemHandler.cs" />
     <Compile Include="Assets\Scripts\Items\ItemListController.cs" />
     <Compile Include="Assets\Scripts\Items\ItemListing.cs" />
@@ -88,8 +95,6 @@
     <Compile Include="Assets\Scripts\PC\PC_UIController.cs" />
     <Compile Include="Assets\Scripts\PC\ShoppingBrowser.cs" />
     <Compile Include="Assets\Scripts\PC\ShoppingItemBtn.cs" />
-    <Compile Include="Assets\Scripts\PC\SlotSetupController.cs" />
-    <Compile Include="Assets\Scripts\SlotSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Data\ContainersList.txt" />

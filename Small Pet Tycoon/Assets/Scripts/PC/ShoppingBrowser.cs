@@ -38,7 +38,7 @@ public class ShoppingBrowser : MonoBehaviour
     {
         foreach (KeyValuePair<string, int> item in cartContents)
         {
-            GameObject newItem = Instantiate(Resources.Load("Prefabs/UI/BasketObj")) as GameObject;
+            GameObject newItem = Instantiate(Resources.Load("Prefabs/UI/Desktop/BasketObj")) as GameObject;
             string key = item.Key;
             ItemListing thisItem = GetItem(key);
             newItem.transform.GetChild(0).GetComponent<Text>().text = thisItem.name;
@@ -187,10 +187,20 @@ public class ShoppingBrowser : MonoBehaviour
                 for (int i = 0; i < cartItem.Value; i++)
                 {
                     ItemListing item = GetItem(cartItem.Key);
+                    if (item.dataType == DATA_TYPE.CONTAINER)
+                    {
+                        GameObject thisObj = Instantiate(Resources.Load("Prefabs/Containers/Container_Size" + item.size) as GameObject);
+                        thisObj.transform.position = new Vector3(0, -1000.0f, 0);
+                        thisObj.AddComponent<ItemHandler>();
+                        thisObj.GetComponent<ItemHandler>().SetupItem(item);
+                    }
+                    else
+                    {
 
-                    GameObject thisObj = new GameObject("newItem");
-                    thisObj.AddComponent<ItemHandler>();
-                    thisObj.GetComponent<ItemHandler>().SetupItem(item);
+                        GameObject thisObj = new GameObject("newItem");
+                        thisObj.AddComponent<ItemHandler>();
+                        thisObj.GetComponent<ItemHandler>().SetupItem(item);
+                    }
                 }
             }
             GameManager.playerFunds -= totalCost;

@@ -6,6 +6,23 @@ public class ItemHandler : MonoBehaviour
 {
     public Items itemData;
 
+    private void OnMouseDown()
+    {
+        if(itemData.type != DATA_TYPE.CONTAINER)
+        {
+            return;
+        }
+
+        Container data = (Container)itemData;
+        GameObject instGO = Resources.Load("Prefabs/UI/ContainerDisplay") as GameObject;
+
+        GameObject display = Instantiate(instGO);
+        display.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
+        display.transform.localPosition = Vector2.zero;
+        display.GetComponent<ContainerDisplay>().SetupDisplay(data.containerSlot, data);
+        GameManager.disableBGInput = true;
+    }
+
     public void SetupItem(ItemListing item)
     {
         int index = GameManager.GetIndex();
@@ -15,7 +32,7 @@ public class ItemHandler : MonoBehaviour
         switch (item.dataType)
         {
             case DATA_TYPE.CONTAINER:
-                itemData = new Container(index, item.name, System.Convert.ToInt32(item.size));
+                itemData = new Container(index, item.name, System.Convert.ToInt32(item.size), gameObject);
                 GameManager.playerStorage.containerStorage.Add(index, (Container)itemData);
                 break;
             case DATA_TYPE.EQUIPMENT:

@@ -111,7 +111,7 @@ public class ItemListController : MonoBehaviour
 
     private void LoadContainerItems()
     {
-        GameObject containerItem = Resources.Load("Prefabs/UI/ContainersObj") as GameObject;
+        GameObject containerItem = Resources.Load("Prefabs/UI/Desktop/ContainersObj") as GameObject;
         List<ContainerListing> cListing = new List<ContainerListing>();
         for (int i = 0; i < items.Count; i++)
         {
@@ -137,7 +137,7 @@ public class ItemListController : MonoBehaviour
 
     private void LoadEquipmentItems()
     {
-        GameObject equipmentItem = Resources.Load("Prefabs/UI/EquipmentObj") as GameObject;
+        GameObject equipmentItem = Resources.Load("Prefabs/UI/Desktop/EquipmentObj") as GameObject;
 
         if (equipmentItem == null)
         {
@@ -174,7 +174,7 @@ public class ItemListController : MonoBehaviour
 
     private void LoadCritterItems()
     {
-        GameObject critterItem = Resources.Load("Prefabs/UI/CritterObj") as GameObject;
+        GameObject critterItem = Resources.Load("Prefabs/UI/Desktop/CritterObj") as GameObject;
 
         if (critterItem == null)
         {

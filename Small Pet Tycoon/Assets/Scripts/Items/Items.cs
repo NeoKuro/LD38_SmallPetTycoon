@@ -44,6 +44,7 @@ public class Items : MonoBehaviour
 
 public class Container : Items
 {
+    public string customName = "";
     public int containerSlot = -1;  //Which container slot is this placed in in the room?
     public int maxCapacity = 0; //How many critters can be fit in here?
     public int currCapacity = 0;
@@ -52,17 +53,24 @@ public class Container : Items
     public float cleanliness = 0.0f;    //How clean (0-100) is the container?
     public float foodLevels = 0.0f;     //How much food is left in the container? 0 - 10
     public bool placed = false;
-
-    public Dictionary<int, Equipment> equipmentList = new Dictionary<int, Equipment>();
+    public GameObject thisGameObject;
+    public List<Equipment> equipmentList = new List<Equipment>();
     public List<Critter> critterList = new List<Critter>();
 
-    public Container(int i, string n, int s) : base(i, n, s)
+    public Container(int i, string n, int s, GameObject go) : base(i, n, s)
     {
-
-        maxCapacity = size * 5;
-        equipmentSlots = (size - 1) * 2;        //Size 1 has no equipment slots (bugs only) -- size 2 = 2, 3 = 4, 4 = 6, 5 = 8
+        maxCapacity = size * 5;                 //Size 1 = 5x size 1 critters
+        equipmentSlots = (size - 1) * 2;        // size 1 = 1, 2 = 2, 3 = 4, 4 = 6, 5 = 8
+        if (equipmentSlots <= 0)
+            equipmentSlots = 1;                 //Ensure there is at minimum 1 slot
         cleanliness = 50.0f;
         foodLevels = 2.5f;
+        thisGameObject = go;
+    }
+
+    public void SetCustomName(string newName)
+    {
+        customName = newName;
     }
 
     public void FeedCritters(float toAdd)
@@ -82,17 +90,19 @@ public class Container : Items
         return freeze;
     }
 
-    public void AddEquipment(Equipment equipment, int slot)
+    public void AddEquipment(Equipment equipment)
     {
-        equipment.slotIndex = slot;
-        equipmentList.Add(slot, equipment);
+       // equipment.slotIndex = slot;
+        equipment.container = this;
+        equipmentList.Add(equipment);
         GameManager.playerStorage.equipmentStorage.Remove(equipment.index);
     }
 
     public void RemoveEquipment(int slot)
     {
         GameManager.playerStorage.equipmentStorage.Add(equipmentList[slot].index, equipmentList[slot]);
-        equipmentList.Remove(slot);
+        equipmentList[slot].container = null;
+        equipmentList.RemoveAt(slot);
     }
 
     public void AddCritter(Critter critter)
@@ -115,24 +125,31 @@ public class Container : Items
         placed = true;
     }
 
-    public void RemoveContainer()
+    public void RemoveContainer(int slotIndex)
     {
         placed = false;
-        for (int i = 0; i < critterList.Count; i++)
+        thisGameObject.transform.SetParent(null);
+        GameManager.slots[containerSlot].RemoveContainer(slotIndex);
+        RemoveAllItems();
+    }
+
+    public void RemoveAllItems()
+    {
+        for (int i = equipmentList.Count - 1; i >= 0; i--)
         {
-            GameManager.playerStorage.critterStorage.Add(critterList[i].index, critterList[i]);
+            RemoveEquipment(i);
         }
 
-        for (int i = 0; i < equipmentList.Count; i++)
+        for (int i = critterList.Count - 1; i >= 0; i--)
         {
-            GameManager.playerStorage.equipmentStorage.Add(equipmentList[i].index, equipmentList[i]);
+            RemoveCritter(critterList[i]);
         }
 
         critterList.Clear();
         equipmentList.Clear();
     }
 
-    private IEnumerator RunCoroutine()
+    public override IEnumerator RunCoroutine()
     {
         while (placed)
         {
@@ -196,7 +213,7 @@ public class Equipment : Items
     {
         if (container != null)
         {
-            container.equipmentList.Remove(index);
+            container.equipmentList.Remove(this);
         }
         else if (GameManager.playerStorage.equipmentStorage.ContainsKey(index))
         {
@@ -208,6 +225,7 @@ public class Equipment : Items
 
 public class Critter : Items
 {
+    public string customName = "";
     public float hunger = 0.0f;     //How hungry is this critter? (0-10, 10 = full)
     public float age = 0.0f;        //How old is critter?
     public float maxAge = 0.0f;     //When will this critter die of old age? (Cannot be changed, randomly generated based on parents?)
@@ -234,6 +252,11 @@ public class Critter : Items
         
     }
 
+    public void SetCustomName(string newName)
+    {
+        customName = newName;
+    }
+    
     public void Eat()
     {
         if(container.foodLevels > 0)
